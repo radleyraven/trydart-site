@@ -3,365 +3,474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dart — Copy 3, Paste 3</title>
-    <meta name="description" content="Dart gives you clipboard slots that stick. Copy to D, S, or F. Paste from any slot instantly. $4.99 one-time for macOS.">
+    <title>Dart — Copy 3, Paste 3 | Clipboard Slots for macOS</title>
+    <meta name="description" content="Dart gives you clipboard slots that stick. Copy to D, S, or F. Paste from any slot instantly. Full clipboard history with search. $4.99 one-time for macOS.">
     <meta property="og:title" content="Dart — Copy 3, Paste 3">
     <meta property="og:description" content="Clipboard slots that stick. Stop losing what you copied.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://trydart.app">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #E85D3A;
+            --accent-glow: rgba(232, 93, 58, 0.35);
             --accent-light: rgba(232, 93, 58, 0.12);
-            --bg: #0A0A0B;
+            --accent-subtle: rgba(232, 93, 58, 0.06);
+            --green: #22C55E;
+            --green-light: rgba(34,197,94,0.12);
+            --bg: #09090B;
+            --bg-elevated: #111113;
             --card: #141416;
+            --card-hover: #1A1A1E;
             --card-border: rgba(255,255,255,0.06);
+            --card-border-hover: rgba(255,255,255,0.12);
             --text: #F5F5F7;
-            --text-secondary: rgba(245,245,247,0.55);
+            --text-secondary: rgba(245,245,247,0.6);
             --text-tertiary: rgba(245,245,247,0.3);
+            --mono: 'JetBrains Mono', monospace;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Nav */
+        /* ── NAV ─────────────────────────────── */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 100;
-            padding: 16px 40px;
-            background: rgba(10,10,11,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 14px 40px;
+            background: rgba(9,9,11,0.8);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--card-border);
             display: flex; align-items: center; justify-content: space-between;
         }
-        .nav-logo {
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text);
-        }
-        .nav-logo svg { width: 28px; height: 28px; }
-        .nav-cta {
-            background: var(--accent); color: white;
-            padding: 10px 24px; border-radius: 8px;
-            text-decoration: none; font-weight: 600; font-size: 14px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(232,93,58,0.35); }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; text-decoration: none; color: var(--text); }
+        .nav-logo svg { width: 26px; height: 26px; }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { background: var(--accent); color: white !important; padding: 9px 20px; border-radius: 8px; font-weight: 600 !important; transition: transform 0.2s, box-shadow 0.2s; }
+        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
 
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center; padding: 120px 24px 80px;
-            position: relative;
-        }
-        .hero::before {
-            content: ''; position: absolute;
-            width: 600px; height: 600px; top: -100px;
-            background: radial-gradient(circle, rgba(232,93,58,0.08) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-        }
-        .badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: var(--accent-light); border: 1px solid rgba(232,93,58,0.2);
-            padding: 6px 14px; border-radius: 100px;
-            font-size: 13px; font-weight: 500; color: var(--accent);
-            margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: clamp(42px, 6vw, 72px); font-weight: 800;
-            line-height: 1.05; letter-spacing: -0.03em;
-            margin-bottom: 20px; max-width: 700px;
-        }
+        /* ── HERO ────────────────────────────── */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; position: relative; }
+        .hero::before { content: ''; position: absolute; width: 800px; height: 800px; top: -200px; background: radial-gradient(circle, rgba(232,93,58,0.06) 0%, transparent 65%); border-radius: 50%; pointer-events: none; }
+        .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); border: 1px solid rgba(232,93,58,0.2); padding: 6px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 28px; }
+        .hero h1 { font-size: clamp(44px, 6.5vw, 76px); font-weight: 800; line-height: 1.02; letter-spacing: -0.035em; margin-bottom: 20px; max-width: 750px; }
         .hero h1 span { color: var(--accent); }
-        .hero p {
-            font-size: 18px; color: var(--text-secondary);
-            max-width: 500px; line-height: 1.6; margin-bottom: 40px;
-        }
-        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-        .btn-primary {
-            background: var(--accent); color: white;
-            padding: 14px 32px; border-radius: 10px; border: none;
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,93,58,0.3); }
-        .btn-secondary {
-            background: var(--card); color: var(--text);
-            padding: 14px 32px; border-radius: 10px; border: 1px solid var(--card-border);
-            font-size: 16px; font-weight: 500; cursor: pointer;
-            text-decoration: none; transition: border-color 0.2s;
-        }
-        .btn-secondary:hover { border-color: rgba(255,255,255,0.15); }
-        .hero-price {
-            margin-top: 16px; font-size: 14px; color: var(--text-tertiary);
-        }
-        .hero-price strong { color: var(--text-secondary); }
+        .hero .subtitle { font-size: 19px; color: var(--text-secondary); max-width: 520px; line-height: 1.6; margin-bottom: 36px; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: white; padding: 15px 32px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: var(--card); color: var(--text); padding: 15px 32px; border-radius: 10px; border: 1px solid var(--card-border); font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--card-border-hover); background: var(--card-hover); }
+        .hero-meta { font-size: 14px; color: var(--text-tertiary); }
+        .hero-meta strong { color: var(--text-secondary); }
 
-        /* Demo */
-        .demo {
-            max-width: 720px; margin: -20px auto 0; padding: 0 24px;
-            position: relative; z-index: 2;
-        }
-        .demo-window {
-            background: var(--card); border: 1px solid var(--card-border);
-            border-radius: 14px; overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        .demo-titlebar {
-            display: flex; align-items: center; gap: 8px;
-            padding: 12px 16px; border-bottom: 1px solid var(--card-border);
-        }
+        /* ── LIVE DEMO ───────────────────────── */
+        .demo-section { padding: 20px 24px 100px; }
+        .demo-window { max-width: 780px; margin: 0 auto; background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.6); }
+        .demo-titlebar { display: flex; align-items: center; gap: 8px; padding: 13px 16px; border-bottom: 1px solid var(--card-border); background: rgba(255,255,255,0.02); }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot-red { background: #FF5F57; }
-        .dot-yellow { background: #FEBC2E; }
-        .dot-green { background: #28C840; }
-        .demo-content {
-            padding: 32px; display: flex; flex-direction: column;
-            align-items: center; gap: 20px;
-        }
-        .demo-keys {
-            display: flex; gap: 12px; align-items: center;
-        }
-        .key {
-            width: 52px; height: 52px; border-radius: 10px;
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; font-weight: 700; font-family: 'Inter', monospace;
-            transition: all 0.3s;
-        }
-        .key.active {
-            background: var(--accent-light); border-color: var(--accent);
-            color: var(--accent); box-shadow: 0 0 20px rgba(232,93,58,0.2);
-        }
-        .key-label { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; text-align: center; }
-        .demo-flow {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 14px; color: var(--text-secondary);
-        }
-        .demo-flow kbd {
-            background: rgba(255,255,255,0.08); padding: 4px 10px;
-            border-radius: 6px; font-family: 'Inter', monospace;
-            font-size: 13px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .demo-flow .arrow { color: var(--accent); font-weight: 600; }
+        .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
+        .demo-titlebar span { margin-left: 8px; font-size: 12px; color: var(--text-tertiary); }
 
-        /* Anim */
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .demo-keys .key:nth-child(1) { animation: pulse 3s ease-in-out infinite; }
-        .demo-keys .key:nth-child(2) { animation: pulse 3s ease-in-out 0.3s infinite; }
-        .demo-keys .key:nth-child(3) { animation: pulse 3s ease-in-out 0.6s infinite; }
+        .demo-body { padding: 0; }
+        .demo-scene { padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; min-height: 280px; }
 
-        /* Features */
-        .features {
-            max-width: 1000px; margin: 100px auto; padding: 0 24px;
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-        }
-        .feature-card {
-            background: var(--card); border: 1px solid var(--card-border);
-            border-radius: 14px; padding: 32px;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-        .feature-card:hover { border-color: rgba(232,93,58,0.2); transform: translateY(-4px); }
-        .feature-icon {
-            width: 44px; height: 44px; border-radius: 10px;
-            background: var(--accent-light); display: flex;
-            align-items: center; justify-content: center;
-            font-size: 20px; margin-bottom: 16px;
-        }
-        .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        /* Simulated text editor */
+        .editor-line { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 14px; line-height: 1.8; }
+        .line-num { color: var(--text-tertiary); font-size: 12px; min-width: 24px; text-align: right; user-select: none; }
+        .line-text { color: var(--text-secondary); }
+        .line-text .highlight { background: rgba(232,93,58,0.15); color: var(--accent); padding: 1px 4px; border-radius: 3px; border: 1px solid rgba(232,93,58,0.25); }
+        .line-text .selected { background: rgba(56,132,244,0.25); border-radius: 2px; padding: 1px 2px; }
+
+        /* Keystroke display */
+        .keystroke-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; background: rgba(255,255,255,0.02); border-top: 1px solid var(--card-border); }
+        .keystroke { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--text); background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); }
+        .keystroke.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+        .keystroke-label { font-size: 12px; color: var(--text-tertiary); }
+        .keystroke-arrow { color: var(--accent); font-size: 16px; }
+
+        /* Slot status bar */
+        .slot-bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px; background: rgba(255,255,255,0.01); border-top: 1px solid var(--card-border); }
+        .slot-indicator { display: flex; align-items: center; gap: 8px; }
+        .slot-key { font-family: var(--mono); font-size: 13px; font-weight: 700; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: var(--text-secondary); transition: all 0.3s; }
+        .slot-key.filled { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+        .slot-key.pasting { border-color: var(--green); background: var(--green-light); color: var(--green); }
+        .slot-preview { font-family: var(--mono); font-size: 11px; color: var(--text-tertiary); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .slot-preview.active { color: var(--text-secondary); }
+
+        /* ── DEMO ANIMATION ──────────────────── */
+        .demo-step { opacity: 0; transform: translateY(8px); transition: all 0.5s ease; }
+        .demo-step.visible { opacity: 1; transform: translateY(0); }
+        .flash { animation: flash 0.6s ease; }
+        @keyframes flash { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .typed { display: inline; }
+        .cursor { display: inline-block; width: 2px; height: 16px; background: var(--accent); margin-left: 2px; animation: blink 1s infinite; vertical-align: text-bottom; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ── SCENARIO TABS ───────────────────── */
+        .scenario-tabs { display: flex; gap: 0; max-width: 780px; margin: 24px auto 0; background: var(--card); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; }
+        .scenario-tab { flex: 1; padding: 14px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-tertiary); cursor: pointer; border-right: 1px solid var(--card-border); transition: all 0.2s; }
+        .scenario-tab:last-child { border-right: none; }
+        .scenario-tab:hover { color: var(--text-secondary); background: rgba(255,255,255,0.02); }
+        .scenario-tab.active { color: var(--accent); background: var(--accent-subtle); }
+
+        /* ── FEATURES ────────────────────────── */
+        .features-section { padding: 80px 0; }
+        .section-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; text-align: center; }
+        .section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.02em; text-align: center; margin-bottom: 16px; }
+        .section-subtitle { font-size: 16px; color: var(--text-secondary); text-align: center; max-width: 500px; margin: 0 auto 48px; line-height: 1.6; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .feature-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 28px; transition: all 0.3s; }
+        .feature-card:hover { border-color: rgba(232,93,58,0.15); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+        .feature-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
+        .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
         .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 
-        /* How */
-        .how {
-            max-width: 700px; margin: 80px auto; padding: 0 24px; text-align: center;
-        }
-        .how h2 { font-size: 36px; font-weight: 800; margin-bottom: 48px; letter-spacing: -0.02em; }
-        .steps { display: flex; flex-direction: column; gap: 32px; text-align: left; }
-        .step {
-            display: flex; gap: 20px; align-items: flex-start;
-        }
-        .step-num {
-            width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-            background: var(--accent); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 16px;
-        }
-        .step h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-        .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+        /* ── HOW IT WORKS (DETAILED) ─────────── */
+        .how-section { padding: 80px 0; }
+        .how-steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; margin: 0 auto; }
+        .how-step { display: flex; gap: 24px; padding: 32px 0; border-bottom: 1px solid var(--card-border); }
+        .how-step:last-child { border-bottom: none; }
+        .how-num { width: 40px; height: 40px; border-radius: 10px; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+        .how-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .how-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+        .how-keys { display: flex; align-items: center; gap: 6px; }
+        .how-key { font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 5px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--text); }
+        .how-arrow { color: var(--accent); font-size: 14px; }
+        .how-note { font-size: 12px; color: var(--text-tertiary); font-style: italic; margin-top: 4px; }
 
-        /* CTA */
-        .cta-section {
-            text-align: center; padding: 80px 24px; margin-top: 40px;
-            position: relative;
-        }
-        .cta-section::before {
-            content: ''; position: absolute;
-            width: 500px; height: 500px; bottom: -200px; left: 50%; transform: translateX(-50%);
-            background: radial-gradient(circle, rgba(232,93,58,0.06) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-        }
-        .cta-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
-        .cta-section p { color: var(--text-secondary); margin-bottom: 32px; font-size: 16px; }
+        /* ── MENU BAR PREVIEW ────────────────── */
+        .menubar-section { padding: 60px 0 80px; }
+        .menubar-preview { max-width: 360px; margin: 0 auto; background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+        .menubar-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--card-border); }
+        .menubar-header-left { display: flex; align-items: center; gap: 8px; }
+        .menubar-header-left svg { width: 16px; height: 16px; color: var(--accent); }
+        .menubar-header-left span { font-size: 13px; font-weight: 700; }
+        .menubar-header-right { font-size: 11px; color: var(--text-tertiary); }
+        .menubar-tabs { display: flex; padding: 0 18px; border-bottom: 1px solid var(--card-border); }
+        .menubar-tab { flex: 1; padding: 10px; text-align: center; font-size: 12px; font-weight: 600; color: var(--text-tertiary); }
+        .menubar-tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+        .menubar-slots { padding: 12px 14px; }
+        .menubar-slot { display: flex; align-items: center; gap: 10px; padding: 10px 10px; border-radius: 8px; margin-bottom: 4px; }
+        .menubar-slot:hover { background: rgba(255,255,255,0.03); }
+        .menubar-slot-key { font-family: var(--mono); font-size: 11px; font-weight: 700; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; }
+        .menubar-slot-key.has-content { background: var(--accent-light); color: var(--accent); }
+        .menubar-slot-key.empty { background: rgba(255,255,255,0.04); color: var(--text-tertiary); }
+        .menubar-slot-info { flex: 1; }
+        .menubar-slot-label { font-size: 11px; font-weight: 600; color: var(--text); }
+        .menubar-slot-preview { font-family: var(--mono); font-size: 10px; color: var(--text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .menubar-slot-empty { font-size: 10px; color: var(--text-tertiary); font-style: italic; }
 
-        /* Email capture */
-        .email-form {
-            display: flex; gap: 10px; max-width: 420px; margin: 0 auto;
-            justify-content: center;
-        }
-        .email-form input {
-            flex: 1; padding: 14px 18px; border-radius: 10px;
-            background: var(--card); border: 1px solid var(--card-border);
-            color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif;
-            outline: none; transition: border-color 0.2s;
-        }
+        /* ── COMPARISON ──────────────────────── */
+        .compare-section { padding: 80px 0; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 700px; margin: 0 auto; }
+        .compare-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 28px; }
+        .compare-card.before { }
+        .compare-card.after { border-color: rgba(232,93,58,0.2); }
+        .compare-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+        .compare-label.bad { color: #EF4444; }
+        .compare-label.good { color: var(--accent); }
+        .compare-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
+        .compare-icon { flex-shrink: 0; margin-top: 2px; }
+
+        /* ── FAQ ──────────────────────────────── */
+        .faq-section { padding: 80px 0; }
+        .faq-list { max-width: 600px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid var(--card-border); }
+        .faq-q { padding: 20px 0; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-q:hover { color: var(--accent); }
+        .faq-a { padding: 0 0 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; display: none; }
+        .faq-item.open .faq-a { display: block; }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-arrow { color: var(--text-tertiary); transition: transform 0.2s; font-size: 12px; }
+
+        /* ── CTA ──────────────────────────────── */
+        .cta-section { text-align: center; padding: 100px 24px 80px; position: relative; }
+        .cta-section::before { content: ''; position: absolute; width: 600px; height: 600px; bottom: -200px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(232,93,58,0.05) 0%, transparent 65%); border-radius: 50%; pointer-events: none; }
+        .cta-section h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .cta-section > p { color: var(--text-secondary); margin-bottom: 32px; font-size: 17px; }
+        .email-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+        .email-form input { flex: 1; padding: 14px 18px; border-radius: 10px; background: var(--card); border: 1px solid var(--card-border); color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
         .email-form input:focus { border-color: var(--accent); }
         .email-form input::placeholder { color: var(--text-tertiary); }
-        .email-form button {
-            background: var(--accent); color: white; border: none;
-            padding: 14px 24px; border-radius: 10px;
-            font-size: 15px; font-weight: 600; cursor: pointer;
-            white-space: nowrap; transition: transform 0.2s;
-        }
-        .email-form button:hover { transform: translateY(-1px); }
+        .email-form button { background: var(--accent); color: white; border: none; padding: 14px 24px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .email-form button:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
         .form-note { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; }
 
-        /* Footer */
-        footer {
-            text-align: center; padding: 40px 24px;
-            border-top: 1px solid var(--card-border);
-            font-size: 13px; color: var(--text-tertiary);
-        }
+        /* ── FOOTER ───────────────────────────── */
+        footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--card-border); font-size: 13px; color: var(--text-tertiary); }
         footer a { color: var(--text-secondary); text-decoration: none; }
         footer a:hover { color: var(--accent); }
 
-        /* Responsive */
+        /* ── RESPONSIVE ──────────────────────── */
         @media (max-width: 768px) {
-            .features { grid-template-columns: 1fr; }
             nav { padding: 12px 20px; }
+            .nav-links a:not(.nav-cta) { display: none; }
+            .features-grid { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .scenario-tabs { flex-direction: column; }
             .email-form { flex-direction: column; }
+            .how-step { flex-direction: column; gap: 16px; }
         }
     </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
     <a href="/" class="nav-logo">
-        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="14" cy="14" r="12.5" stroke="currentColor" stroke-width="1.8"/>
-            <circle cx="14" cy="14" r="7.5" stroke="currentColor" stroke-width="1.2"/>
-            <circle cx="14" cy="14" r="3" fill="#E85D3A"/>
-            <line x1="14" y1="1.5" x2="14" y2="7" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="14" y1="21" x2="14" y2="26.5" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="1.5" y1="14" x2="7" y2="14" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="21" y1="14" x2="26.5" y2="14" stroke="currentColor" stroke-width="0.8"/>
-        </svg>
+        <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12.5" stroke="currentColor" stroke-width="1.8"/><circle cx="14" cy="14" r="7.5" stroke="currentColor" stroke-width="1.2"/><circle cx="14" cy="14" r="3" fill="#E85D3A"/><line x1="14" y1="1.5" x2="14" y2="7" stroke="currentColor" stroke-width="0.8"/><line x1="14" y1="21" x2="14" y2="26.5" stroke="currentColor" stroke-width="0.8"/><line x1="1.5" y1="14" x2="7" y2="14" stroke="currentColor" stroke-width="0.8"/><line x1="21" y1="14" x2="26.5" y2="14" stroke="currentColor" stroke-width="0.8"/></svg>
         Dart
     </a>
-    <a href="#notify" class="nav-cta">Get Notified</a>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How It Works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#notify" class="nav-cta">Get Early Access</a>
+    </div>
 </nav>
 
-<!-- Hero -->
+<!-- HERO -->
 <section class="hero">
-    <div class="badge">🎯 Coming April 2026 for macOS</div>
-    <h1>Copy 3. <span>Paste 3.</span></h1>
-    <p>Stop losing what you copied. Dart gives you clipboard slots that stick — save to D, S, or F and paste from any slot instantly.</p>
+    <div class="badge">🎯 Launching April 2026 · macOS</div>
+    <h1>Stop Losing What<br>You <span>Copied</span></h1>
+    <p class="subtitle">Dart gives you three clipboard slots. Copy to D, S, or F — paste from any slot anytime, even after copying something else. It's the clipboard you always wanted.</p>
     <div class="hero-actions">
-        <a href="#notify" class="btn-primary">Join the Waitlist</a>
-        <a href="#how" class="btn-secondary">See How It Works</a>
+        <a href="#notify" class="btn-primary">🎯 Join the Waitlist</a>
+        <a href="#demo" class="btn-secondary">▶ Watch It Work</a>
     </div>
-    <p class="hero-price"><strong>$4.99</strong> one-time · No subscription · macOS 14+</p>
+    <p class="hero-meta"><strong>$4.99</strong> one-time · No subscription · No tracking · macOS 14+</p>
 </section>
 
-<!-- Demo -->
-<section class="demo">
+<!-- LIVE DEMO -->
+<section class="demo-section" id="demo">
+    <div class="scenario-tabs">
+        <div class="scenario-tab active" onclick="showScenario(0)">📋 Multi-Item Workflow</div>
+        <div class="scenario-tab" onclick="showScenario(1)">🔁 Repeat Paste</div>
+        <div class="scenario-tab" onclick="showScenario(2)">📝 Form Filling</div>
+    </div>
+    <div style="height:16px"></div>
     <div class="demo-window">
         <div class="demo-titlebar">
-            <div class="dot dot-red"></div>
-            <div class="dot dot-yellow"></div>
-            <div class="dot dot-green"></div>
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span id="demo-app-name">TextEdit — Project Notes</span>
         </div>
-        <div class="demo-content">
-            <div class="demo-flow">
-                <kbd>⌘C</kbd>
-                <span class="arrow">→</span>
-                <span>then press</span>
+        <div class="demo-body">
+            <div class="demo-scene" id="demo-scene">
+                <!-- Populated by JS -->
             </div>
-            <div class="demo-keys">
-                <div>
-                    <div class="key active">D</div>
-                    <div class="key-label">Slot 1</div>
-                </div>
-                <div>
-                    <div class="key">S</div>
-                    <div class="key-label">Slot 2</div>
-                </div>
-                <div>
-                    <div class="key">F</div>
-                    <div class="key-label">Slot 3</div>
-                </div>
+            <div class="keystroke-bar" id="keystroke-bar">
+                <span class="keystroke-label">Watching for keystrokes...</span>
             </div>
-            <div class="demo-flow">
-                <kbd>⌘V</kbd>
-                <span class="arrow">→</span>
-                <kbd>D</kbd>
-                <span>pastes from Slot 1</span>
+            <div class="slot-bar">
+                <div class="slot-indicator">
+                    <div class="slot-key" id="slot-d">D</div>
+                    <span class="slot-preview" id="slot-d-preview">empty</span>
+                </div>
+                <div class="slot-indicator">
+                    <div class="slot-key" id="slot-s">S</div>
+                    <span class="slot-preview" id="slot-s-preview">empty</span>
+                </div>
+                <div class="slot-indicator">
+                    <div class="slot-key" id="slot-f">F</div>
+                    <span class="slot-preview" id="slot-f-preview">empty</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Features -->
-<section class="features">
-    <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>Clipboard Slots</h3>
-        <p>Three slots ready to go. Copy to D, S, or F. Each slot holds your content until you replace it — even after restart.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Full History</h3>
-        <p>Every copy is captured. Search through your last 50 clipboard items and assign any of them to a slot.</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Zero Friction</h3>
-        <p>No new shortcuts to learn. ⌘+C and ⌘+V work exactly like before — just tap a slot key within half a second to save or recall.</p>
+<!-- BEFORE / AFTER -->
+<section class="compare-section">
+    <div class="container">
+        <p class="section-label">The Problem</p>
+        <h2 class="section-title">Your Clipboard Only Holds One Thing</h2>
+        <p class="section-subtitle">Every ⌘+C overwrites what you had. You know the pain.</p>
+        <div class="compare-grid">
+            <div class="compare-card before">
+                <div class="compare-label bad">😤 Without Dart</div>
+                <div class="compare-item"><span class="compare-icon">❌</span> Copy address, copy phone number — address is gone</div>
+                <div class="compare-item"><span class="compare-icon">❌</span> Switching between docs, re-copying the same things over and over</div>
+                <div class="compare-item"><span class="compare-icon">❌</span> Filling out forms with repeated info — copy, tab, paste, go back, copy, tab, paste...</div>
+                <div class="compare-item"><span class="compare-icon">❌</span> Lost that perfect paragraph you copied 5 minutes ago</div>
+            </div>
+            <div class="compare-card after">
+                <div class="compare-label good">🎯 With Dart</div>
+                <div class="compare-item"><span class="compare-icon">✅</span> Address in D, phone in S, email in F — all three ready to paste</div>
+                <div class="compare-item"><span class="compare-icon">✅</span> Copy once, paste forever — slots survive new copies</div>
+                <div class="compare-item"><span class="compare-icon">✅</span> Fill forms in seconds — ⌘V+D, tab, ⌘V+S, tab, ⌘V+F</div>
+                <div class="compare-item"><span class="compare-icon">✅</span> Full history — search and recover anything from your last 50 copies</div>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- How It Works -->
-<section class="how" id="how">
-    <h2>Dead Simple</h2>
-    <div class="steps">
-        <div class="step">
-            <div class="step-num">1</div>
-            <div>
-                <h4>Copy anything normally</h4>
-                <p>Press ⌘+C like you always do. Dart watches for a slot key in the next half-second.</p>
+<!-- FEATURES -->
+<section class="features-section" id="features">
+    <div class="container">
+        <p class="section-label">Features</p>
+        <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+        <p class="section-subtitle">Dart is intentionally minimal. No bloat. No learning curve.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>3 Clipboard Slots</h3>
+                <p>Save to D, S, or F right after copying. Each slot holds your content until you replace it — even across restarts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Searchable History</h3>
+                <p>Every copy is automatically captured. Search through your last 50 items by content or source app. Assign any item to a slot.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Zero Learning Curve</h3>
+                <p>⌘+C and ⌘+V work exactly like before. Just tap a slot key within half a second to save or recall. That's it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Visual HUD Overlay</h3>
+                <p>A beautiful floating dartboard appears briefly when you use a slot — so you always know what happened. Confirms the action, then vanishes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏷️</div>
+                <h3>Named Slots</h3>
+                <p>Label your slots — "Address", "Signature", "Code Snippet". Know what's in each slot at a glance from the menu bar.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>100% Private</h3>
+                <p>Everything stays on your Mac. No cloud, no analytics, no tracking. We never see what you copy. Period.</p>
             </div>
         </div>
-        <div class="step">
-            <div class="step-num">2</div>
-            <div>
-                <h4>Tap a slot key to save</h4>
-                <p>Press D, S, or F right after copying. That content is now locked into that slot.</p>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+    <div class="container">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three Moves. That's It.</h2>
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-num">1</div>
+                <div class="how-content">
+                    <h3>Copy Something</h3>
+                    <p>Select text, image, whatever — press ⌘+C like normal. Dart shows a brief HUD: it's listening for a slot key.</p>
+                    <div class="how-keys">
+                        <span class="how-key">⌘</span>
+                        <span class="how-key">C</span>
+                        <span class="how-arrow">→</span>
+                        <span class="how-key" style="border-color:var(--accent);color:var(--accent);">D</span>
+                    </div>
+                    <p class="how-note">If you don't press a slot key, it's just a normal copy. Nothing changes.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">2</div>
+                <div class="how-content">
+                    <h3>Paste From Any Slot</h3>
+                    <p>Press ⌘+V then immediately press the slot key. The saved content pastes — even if you've copied other things since.</p>
+                    <div class="how-keys">
+                        <span class="how-key">⌘</span>
+                        <span class="how-key">V</span>
+                        <span class="how-arrow">→</span>
+                        <span class="how-key" style="border-color:var(--green);color:var(--green);">D</span>
+                    </div>
+                    <p class="how-note">Works in any app — browsers, editors, terminals, email, everywhere.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">3</div>
+                <div class="how-content">
+                    <h3>Browse Your History</h3>
+                    <p>Click the Dart icon in your menu bar to see all three slots and your full clipboard history. Search, assign items to slots, or copy directly.</p>
+                    <p class="how-note">Menu bar shows slot contents at a glance. Keyboard-first, but the UI is always there.</p>
+                </div>
             </div>
         </div>
-        <div class="step">
-            <div class="step-num">3</div>
-            <div>
-                <h4>Paste from any slot anytime</h4>
-                <p>Press ⌘+V then the slot key. Your saved content pastes instantly — even if you've copied other things since.</p>
+    </div>
+</section>
+
+<!-- MENU BAR PREVIEW -->
+<section class="menubar-section">
+    <div class="container" style="text-align:center;">
+        <p class="section-label">Lives in Your Menu Bar</p>
+        <h2 class="section-title">Always There, Never in the Way</h2>
+        <p class="section-subtitle">Click the dartboard icon to see your slots, browse history, or search.</p>
+        <div class="menubar-preview">
+            <div class="menubar-header">
+                <div class="menubar-header-left">
+                    <svg viewBox="0 0 28 28" fill="none" style="color:var(--accent);"><circle cx="14" cy="14" r="12.5" stroke="currentColor" stroke-width="1.8"/><circle cx="14" cy="14" r="7.5" stroke="currentColor" stroke-width="1.2"/><circle cx="14" cy="14" r="3" fill="#E85D3A"/></svg>
+                    <span>Dart</span>
+                </div>
+                <div class="menubar-header-right">2/3 used</div>
+            </div>
+            <div class="menubar-tabs">
+                <div class="menubar-tab active">Slots</div>
+                <div class="menubar-tab">History</div>
+            </div>
+            <div class="menubar-slots">
+                <div class="menubar-slot">
+                    <div class="menubar-slot-key has-content">D</div>
+                    <div class="menubar-slot-info">
+                        <div class="menubar-slot-label">Address</div>
+                        <div class="menubar-slot-preview">742 Evergreen Terrace, Springfield</div>
+                    </div>
+                </div>
+                <div class="menubar-slot">
+                    <div class="menubar-slot-key has-content">S</div>
+                    <div class="menubar-slot-info">
+                        <div class="menubar-slot-label">Phone</div>
+                        <div class="menubar-slot-preview">(619) 555-0142</div>
+                    </div>
+                </div>
+                <div class="menubar-slot">
+                    <div class="menubar-slot-key empty">F</div>
+                    <div class="menubar-slot-info">
+                        <div class="menubar-slot-empty">Empty — ⌘C then F to save</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+    <div class="container">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">Questions</h2>
+        <div class="faq-list">
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Does normal copy/paste still work?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">Yes — completely unchanged. ⌘+C copies to your clipboard like always. Dart only activates when you press a slot key (D, S, or F) within half a second after copying or pasting. If you don't press a slot key, nothing different happens.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Can I change the slot keys?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">Yes. D, S, F are the defaults because they're close to the C key for fast muscle memory. You can switch to Classic mode (1, 2, 3) or assign any key you want in Settings.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Why does Dart need Accessibility permission?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">Dart captures keyboard shortcuts system-wide — that's how it knows you pressed ⌘+C followed by D. macOS requires Accessibility permission for this. Dart uses it exclusively for hotkey detection and nothing else. No screen reading, no keystroke logging.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Is my clipboard data sent anywhere?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">No. Everything stays on your Mac in local app storage. No cloud, no servers, no analytics, no telemetry. We literally cannot see what you copy.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Does it work with images and files?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">Dart v1 supports text content. Image and file support is coming in a future update based on user feedback.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Why only 3 slots? Why not 10?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">Three is the sweet spot for muscle memory — you can remember what's in D, S, and F without thinking. More slots are unlockable as you use the app. But honestly, 3 handles 90% of use cases. We designed for speed, not storage.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Is it a subscription?<span class="faq-arrow">▼</span></div>
+                <div class="faq-a">No. $4.99 one-time. You own it forever. No recurring charges, no premium tier, no "upgrade to unlock" games.</div>
             </div>
         </div>
     </div>
@@ -379,21 +488,151 @@
 </section>
 
 <footer>
-    <p>© 2026 Radley Raven · <a href="/privacy">Privacy</a> · Built in San Diego 🌴</p>
+    <p>© 2026 Radley Raven · <a href="/privacy.html">Privacy</a> · Built in San Diego 🌴</p>
 </footer>
 
 <script>
+// ── DEMO ANIMATION ENGINE ──────────────────
+const scenarios = [
+    {
+        name: "TextEdit — Project Notes",
+        steps: [
+            { action: "show", lines: [{n:1, t:'Meeting notes from Monday call'}, {n:2, t:'Client: Acme Corp — Budget: $50,000'}, {n:3, t:'Contact: jane@acme.com'}, {n:4, t:'Deadline: March 30, 2026'}] },
+            { action: "select", line: 2, text: "Acme Corp", delay: 1200 },
+            { action: "copy", slot: "d", preview: "Acme Corp", delay: 800 },
+            { action: "select", line: 3, text: "jane@acme.com", delay: 1000 },
+            { action: "copy", slot: "s", preview: "jane@acme.com", delay: 800 },
+            { action: "select", line: 2, text: "$50,000", delay: 1000 },
+            { action: "copy", slot: "f", preview: "$50,000", delay: 800 },
+            { action: "message", text: "All three saved. Now paste anywhere:", delay: 1200 },
+            { action: "paste", slot: "d", delay: 1000 },
+            { action: "paste", slot: "s", delay: 800 },
+            { action: "paste", slot: "f", delay: 800 },
+            { action: "message", text: "Three items, three slots, zero re-copying. ✓", delay: 2000 },
+        ]
+    },
+    {
+        name: "Chrome — Client Emails",
+        steps: [
+            { action: "show", lines: [{n:1, t:'RE: Project Proposal — Final Draft'}, {n:2, t:''}, {n:3, t:'Hi team, please use this link for all submissions:'}, {n:4, t:'https://app.example.com/submit/x8k2m'}] },
+            { action: "select", line: 4, text: "https://app.example.com/submit/x8k2m", delay: 1200 },
+            { action: "copy", slot: "d", preview: "https://app.example.com/su…", delay: 800 },
+            { action: "message", text: "Link saved to D. Now paste it into every reply:", delay: 1200 },
+            { action: "paste", slot: "d", delay: 800 },
+            { action: "message", text: "Next email...", delay: 800 },
+            { action: "paste", slot: "d", delay: 800 },
+            { action: "message", text: "And the next...", delay: 800 },
+            { action: "paste", slot: "d", delay: 800 },
+            { action: "message", text: "Same slot, paste it everywhere. No re-copying. ✓", delay: 2000 },
+        ]
+    },
+    {
+        name: "Safari — Account Signup",
+        steps: [
+            { action: "show", lines: [{n:1, t:'Name: _______________'}, {n:2, t:'Email: _______________'}, {n:3, t:'Phone: _______________'}, {n:4, t:'Address: _______________'}] },
+            { action: "message", text: "Pre-load your info into slots:", delay: 1000 },
+            { action: "load", slot: "d", preview: "Radley Raven", delay: 600 },
+            { action: "load", slot: "s", preview: "radley@email.com", delay: 600 },
+            { action: "load", slot: "f", preview: "(619) 555-0142", delay: 600 },
+            { action: "message", text: "Now fill the form — tab and paste:", delay: 1200 },
+            { action: "paste-fill", line: 1, slot: "d", value: "Radley Raven", delay: 700 },
+            { action: "paste-fill", line: 2, slot: "s", value: "radley@email.com", delay: 700 },
+            { action: "paste-fill", line: 3, slot: "f", value: "(619) 555-0142", delay: 700 },
+            { action: "message", text: "Three fields, three seconds. ✓", delay: 2000 },
+        ]
+    }
+];
+
+let currentScenario = 0;
+let animating = false;
+let animationTimeout = null;
+
+function showScenario(idx) {
+    document.querySelectorAll('.scenario-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+    currentScenario = idx;
+    runScenario(scenarios[idx]);
+}
+
+async function runScenario(scenario) {
+    if (animating && animationTimeout) clearTimeout(animationTimeout);
+    animating = true;
+    const scene = document.getElementById('demo-scene');
+    const bar = document.getElementById('keystroke-bar');
+    document.getElementById('demo-app-name').textContent = scenario.name;
+
+    // Reset slots
+    ['d','s','f'].forEach(k => {
+        document.getElementById('slot-'+k).className = 'slot-key';
+        document.getElementById('slot-'+k+'-preview').textContent = 'empty';
+        document.getElementById('slot-'+k+'-preview').className = 'slot-preview';
+    });
+
+    for (const step of scenario.steps) {
+        if (!animating) return;
+        await delay(step.delay || 500);
+
+        if (step.action === 'show') {
+            scene.innerHTML = step.lines.map(l =>
+                `<div class="editor-line"><span class="line-num">${l.n}</span><span class="line-text" id="line-${l.n}">${l.t}</span></div>`
+            ).join('');
+        }
+        else if (step.action === 'select') {
+            const el = document.getElementById('line-'+step.line);
+            if (el) el.innerHTML = el.textContent.replace(step.text, `<span class="selected">${step.text}</span>`);
+        }
+        else if (step.action === 'copy') {
+            bar.innerHTML = `<span class="keystroke active">⌘C</span><span class="keystroke-arrow">→</span><span class="keystroke active">${step.slot.toUpperCase()}</span><span class="keystroke-label">Saved to Slot ${step.slot.toUpperCase()}</span>`;
+            const key = document.getElementById('slot-'+step.slot);
+            key.className = 'slot-key filled';
+            key.classList.add('flash');
+            document.getElementById('slot-'+step.slot+'-preview').textContent = step.preview;
+            document.getElementById('slot-'+step.slot+'-preview').className = 'slot-preview active';
+        }
+        else if (step.action === 'paste') {
+            bar.innerHTML = `<span class="keystroke active">⌘V</span><span class="keystroke-arrow">→</span><span class="keystroke active">${step.slot.toUpperCase()}</span><span class="keystroke-label">Pasted from Slot ${step.slot.toUpperCase()}</span>`;
+            const key = document.getElementById('slot-'+step.slot);
+            key.className = 'slot-key pasting';
+            setTimeout(() => key.className = 'slot-key filled', 500);
+        }
+        else if (step.action === 'load') {
+            const key = document.getElementById('slot-'+step.slot);
+            key.className = 'slot-key filled';
+            document.getElementById('slot-'+step.slot+'-preview').textContent = step.preview;
+            document.getElementById('slot-'+step.slot+'-preview').className = 'slot-preview active';
+            bar.innerHTML = `<span class="keystroke active">⌘C</span><span class="keystroke-arrow">→</span><span class="keystroke active">${step.slot.toUpperCase()}</span><span class="keystroke-label">"${step.preview}"</span>`;
+        }
+        else if (step.action === 'paste-fill') {
+            const el = document.getElementById('line-'+step.line);
+            if (el) el.innerHTML = el.textContent.replace('_______________', `<span class="highlight">${step.value}</span>`);
+            bar.innerHTML = `<span class="keystroke active">⌘V</span><span class="keystroke-arrow">→</span><span class="keystroke active">${step.slot.toUpperCase()}</span><span class="keystroke-label">${step.value}</span>`;
+            const key = document.getElementById('slot-'+step.slot);
+            key.className = 'slot-key pasting';
+            setTimeout(() => key.className = 'slot-key filled', 500);
+        }
+        else if (step.action === 'message') {
+            bar.innerHTML = `<span class="keystroke-label">${step.text}</span>`;
+        }
+    }
+
+    // Loop
+    animationTimeout = setTimeout(() => { if (animating) runScenario(scenario); }, 2000);
+}
+
+function delay(ms) { return new Promise(r => animationTimeout = setTimeout(r, ms)); }
+
+// Start first scenario
+showScenario(0);
+
+// Email form
 function handleSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('email-input').value;
     const btn = document.getElementById('submit-btn');
-    // TODO: Wire to email capture service (Buttondown/Mailchimp/Google Form)
-    // For now, store in localStorage
     const emails = JSON.parse(localStorage.getItem('dart_waitlist') || '[]');
     emails.push({ email, date: new Date().toISOString() });
     localStorage.setItem('dart_waitlist', JSON.stringify(emails));
     btn.textContent = '✓ You\'re In';
-    btn.style.background = '#28C840';
+    btn.style.background = '#22C55E';
     document.getElementById('email-input').value = '';
     setTimeout(() => { btn.textContent = 'Notify Me'; btn.style.background = ''; }, 3000);
 }
