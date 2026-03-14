@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dart — Copy 3, Paste 3 | Clipboard Slots for Mac</title>
+    <meta name="description" content="Stop going back and forth. Copy everything first, switch once, paste it all. Dart gives your Mac clipboard three slots. $4.99 one-time.">
+    <meta property="og:title" content="Dart — Stop Going Back and Forth">
+    <meta property="og:description" content="Three items. Six tab switches. Every single time. Dart fixes that.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trydart.app">
+    <meta property="og:image" content="https://trydart.app/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dart — Stop Going Back and Forth">
+    <meta name="twitter:description" content="Three items. Six tab switches. Every single time. Dart fixes that.">
+    <meta name="twitter:image" content="https://trydart.app/og-image.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #E85D3A;
+            --accent-glow: rgba(232,93,58,0.35);
+            --accent-light: rgba(232,93,58,0.1);
+            --accent-subtle: rgba(232,93,58,0.04);
+            --green: #22C55E;
+            --green-light: rgba(34,197,94,0.1);
+            --bg: #FFFFFF;
+            --card: #F5F5F7;
+            --card-hover: #EDEDF0;
+            --border: rgba(0,0,0,0.08);
+            --border-hover: rgba(0,0,0,0.15);
+            --text: #1D1D1F;
+            --muted: rgba(29,29,31,0.6);
+            --dim: rgba(29,29,31,0.3);
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* ── NAV ── */
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 14px 40px; background: rgba(255,255,255,0.8); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; text-decoration: none; color: var(--text); }
+        .nav-logo svg { width: 26px; height: 26px; }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { background: var(--accent); color: white !important; padding: 9px 20px; border-radius: 8px; font-weight: 600 !important; transition: transform 0.2s, box-shadow 0.2s; }
+        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+
+        /* ── HERO ── */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 40px; position: relative; }
+        .hero::before { content: ''; position: absolute; width: 900px; height: 900px; top: -300px; background: radial-gradient(circle, rgba(232,93,58,0.05) 0%, transparent 60%); border-radius: 50%; pointer-events: none; }
+        .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); border: 1px solid rgba(232,93,58,0.2); padding: 7px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 32px; letter-spacing: 0.02em; }
+        .hero h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 800; line-height: 1.08; letter-spacing: -0.035em; margin-bottom: 24px; max-width: 700px; }
+        .hero-pain { font-size: 18px; color: var(--muted); max-width: 580px; line-height: 1.7; margin-bottom: 12px; }
+        .hero-pain strong { color: var(--text); font-weight: 600; }
+        .hero-fix { font-size: 20px; color: var(--text); font-weight: 600; max-width: 520px; line-height: 1.5; margin-bottom: 40px; }
+        .hero-fix span { color: var(--accent); }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: white; padding: 15px 32px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: var(--card); color: var(--text); padding: 15px 32px; border-radius: 10px; border: 1px solid var(--border); font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--border-hover); background: var(--card-hover); }
+        .hero-price { font-size: 14px; color: var(--dim); margin-top: 4px; }
+        .hero-price strong { color: var(--muted); }
+
+        /* ── DEMO ── */
+        .demo-section { padding: 20px 24px 80px; }
+        .demo-outer { max-width: 800px; margin: 0 auto; }
+        .demo-label { text-align: center; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 20px; }
+
+        /* Pain scene */
+        .pain-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+        .pain-window { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        .pain-titlebar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+        .pdot { width: 8px; height: 8px; border-radius: 50%; }
+        .pdot-r { background: #FF5F57; } .pdot-y { background: #FEBC2E; } .pdot-g { background: #28C840; }
+        .pain-titlebar span { margin-left: 6px; font-size: 11px; color: var(--dim); }
+        .pain-body { padding: 16px; font-family: var(--mono); font-size: 12px; line-height: 1.8; color: var(--muted); }
+        .pain-body .hl { background: rgba(56,132,244,0.2); padding: 1px 3px; border-radius: 2px; color: var(--text); }
+        .switch-arrows { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 20px; color: var(--dim); gap: 4px; }
+        .switch-label { font-size: 11px; color: #EF4444; font-weight: 600; text-align: center; margin-top: 12px; }
+
+        /* Solution scene */
+        .fix-demo { background: var(--card); border: 1px solid rgba(232,93,58,0.15); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .fix-titlebar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+        .fix-titlebar span { margin-left: 6px; font-size: 11px; color: var(--dim); }
+        .fix-body { padding: 24px; }
+        .fix-steps { display: flex; flex-direction: column; gap: 12px; }
+        .fix-step { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid var(--border); }
+        .fix-step.active { border-color: rgba(232,93,58,0.2); background: var(--accent-subtle); }
+        .fix-step.done { border-color: rgba(34,197,94,0.2); background: var(--green-light); }
+        .fix-keys { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+        .fk { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 5px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--text); }
+        .fk.accent { background: var(--accent-light); border-color: rgba(232,93,58,0.3); color: var(--accent); }
+        .fk.green { background: var(--green-light); border-color: rgba(34,197,94,0.3); color: var(--green); }
+        .fix-arrow { color: var(--dim); font-size: 10px; }
+        .fix-desc { font-size: 13px; color: var(--muted); flex: 1; }
+        .fix-desc strong { color: var(--text); }
+        .fix-result { text-align: center; padding: 16px; border-top: 1px solid var(--border); font-size: 13px; font-weight: 600; }
+        .fix-result .good { color: var(--green); }
+        .fix-result .bad { color: #EF4444; text-decoration: line-through; margin-right: 8px; }
+
+        /* Slot bar */
+        .slot-bar { display: flex; justify-content: center; gap: 24px; padding: 16px; border-top: 1px solid var(--border); }
+        .slot-chip { display: flex; align-items: center; gap: 8px; }
+        .slot-key { font-family: var(--mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 7px; transition: all 0.4s; }
+        .slot-key.empty { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--dim); }
+        .slot-key.filled { background: var(--accent-light); border: 1px solid var(--accent); color: var(--accent); }
+        .slot-text { font-family: var(--mono); font-size: 11px; color: var(--dim); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .slot-text.has { color: var(--muted); }
+
+        /* ── BEFORE/AFTER ── */
+        .compare { max-width: 800px; margin: 0 auto; padding: 80px 24px; }
+        .compare-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; text-align: center; letter-spacing: -0.02em; margin-bottom: 40px; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .compare-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+        .compare-card.after { border-color: rgba(232,93,58,0.15); }
+        .compare-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px; }
+        .compare-label.bad { color: #EF4444; }
+        .compare-label.good { color: var(--accent); }
+        .compare-item { display: flex; gap: 10px; font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+        .ci { flex-shrink: 0; }
+
+        /* ── USE CASES ── */
+        .usecases { max-width: 800px; margin: 0 auto; padding: 60px 24px 80px; }
+        .uc-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; text-align: center; }
+        .uc-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; text-align: center; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .uc-subtitle { font-size: 16px; color: var(--muted); text-align: center; max-width: 500px; margin: 0 auto 40px; line-height: 1.6; }
+        .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .uc-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s; }
+        .uc-card:hover { border-color: rgba(232,93,58,0.12); transform: translateY(-2px); }
+        .uc-emoji { font-size: 24px; margin-bottom: 12px; }
+        .uc-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .uc-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+        .uc-example { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-top: 8px; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px; }
+
+        /* ── FEATURES ── */
+        .features { max-width: 900px; margin: 0 auto; padding: 60px 24px 80px; }
+        .feat-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; text-align: center; }
+        .feat-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; text-align: center; letter-spacing: -0.02em; margin-bottom: 48px; }
+        .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .feat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s; }
+        .feat-card:hover { border-color: rgba(232,93,58,0.12); transform: translateY(-3px); }
+        .feat-icon { font-size: 22px; margin-bottom: 12px; }
+        .feat-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+        .feat-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+        /* ── HOW IT WORKS ── */
+        .how { max-width: 660px; margin: 0 auto; padding: 60px 24px 80px; }
+        .how-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; text-align: center; }
+        .how-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; text-align: center; letter-spacing: -0.02em; margin-bottom: 48px; }
+        .how-steps { display: flex; flex-direction: column; gap: 0; }
+        .how-step { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+        .how-step:last-child { border-bottom: none; }
+        .how-num { width: 40px; height: 40px; border-radius: 10px; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+        .how-body h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+        .how-body p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+        .how-keys { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .hk { font-family: var(--mono); font-size: 13px; font-weight: 600; padding: 5px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--text); }
+        .hk.orange { border-color: var(--accent); color: var(--accent); }
+        .hk.green { border-color: var(--green); color: var(--green); }
+        .how-note { font-size: 12px; color: var(--dim); font-style: italic; }
+
+        /* ── MENU BAR ── */
+        .menubar-section { padding: 40px 24px 80px; text-align: center; }
+        .mb-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; }
+        .mb-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .mb-sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+        .mb-preview { max-width: 340px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.4); text-align: left; }
+        .mb-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        .mb-logo { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
+        .mb-logo svg { width: 16px; height: 16px; }
+        .mb-meta { font-size: 10px; color: var(--dim); }
+        .mb-tabs { display: flex; border-bottom: 1px solid var(--border); }
+        .mb-tab { flex: 1; padding: 9px; text-align: center; font-size: 12px; font-weight: 600; color: var(--dim); }
+        .mb-tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+        .mb-slots { padding: 10px 12px; }
+        .mb-slot { display: flex; align-items: center; gap: 10px; padding: 9px 8px; border-radius: 8px; margin-bottom: 2px; }
+        .mb-sk { font-family: var(--mono); font-size: 11px; font-weight: 700; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 5px; }
+        .mb-sk.full { background: var(--accent-light); color: var(--accent); }
+        .mb-sk.mt { background: rgba(255,255,255,0.04); color: var(--dim); }
+        .mb-info { flex: 1; }
+        .mb-name { font-size: 11px; font-weight: 600; }
+        .mb-prev { font-family: var(--mono); font-size: 10px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .mb-empty { font-size: 10px; color: var(--dim); font-style: italic; }
+
+        /* ── FAQ ── */
+        .faq { max-width: 600px; margin: 0 auto; padding: 60px 24px 80px; }
+        .faq-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; text-align: center; }
+        .faq-title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; text-align: center; letter-spacing: -0.02em; margin-bottom: 40px; }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-q { padding: 18px 0; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s; }
+        .faq-q:hover { color: var(--accent); }
+        .faq-a { padding: 0 0 18px; font-size: 14px; color: var(--muted); line-height: 1.7; display: none; }
+        .faq-item.open .faq-a { display: block; }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-arrow { color: var(--dim); transition: transform 0.2s; font-size: 11px; }
+
+        /* ── CTA ── */
+        .cta { text-align: center; padding: 100px 24px 80px; position: relative; }
+        .cta::before { content: ''; position: absolute; width: 600px; height: 600px; bottom: -200px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(232,93,58,0.05) 0%, transparent 60%); border-radius: 50%; pointer-events: none; }
+        .cta h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .cta > p { color: var(--muted); margin-bottom: 32px; font-size: 17px; }
+        .email-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+        .email-form input { flex: 1; padding: 14px 18px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
+        .email-form input:focus { border-color: var(--accent); }
+        .email-form input::placeholder { color: var(--dim); }
+        .email-form button { background: var(--accent); color: white; border: none; padding: 14px 24px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .email-form button:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--accent-glow); }
+        .form-note { font-size: 12px; color: var(--dim); margin-top: 10px; }
+
+        /* ── FOOTER ── */
+        footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); }
+        .footer-slogan { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+        .footer-slogan span { color: var(--accent); }
+        .footer-links { font-size: 13px; color: var(--dim); }
+        .footer-links a { color: var(--muted); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; }
+            .nav-links a:not(.nav-cta) { display: none; }
+            .pain-demo { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .uc-grid { grid-template-columns: 1fr; }
+            .feat-grid { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+            .how-step { flex-direction: column; gap: 16px; }
+        }
+    
+        .pain-body .hl { background: rgba(56,132,244,0.12); color: var(--text); }
+        .fix-demo { box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+        .mb-preview { box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+        .fk { background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); color: var(--text); }
+        .hk { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.1); color: var(--text); }
+        .slot-key.empty { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08); }
+        .mb-sk.mt { background: rgba(0,0,0,0.03); }
+        .fix-step { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+        .email-form input { background: #F5F5F7; border-color: rgba(0,0,0,0.1); color: #1D1D1F; }
+        .email-form input::placeholder { color: rgba(0,0,0,0.3); }
+        .nav-logo svg { color: #1D1D1F; }
+        .hero::before { background: radial-gradient(circle, rgba(232,93,58,0.06) 0%, transparent 60%); }
+        .cta::before { background: radial-gradient(circle, rgba(232,93,58,0.04) 0%, transparent 60%); }
+        
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="/" class="nav-logo">
+        <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12.5" stroke="currentColor" stroke-width="1.8"/><circle cx="14" cy="14" r="7.5" stroke="currentColor" stroke-width="1.2"/><circle cx="14" cy="14" r="3" fill="#E85D3A"/><line x1="14" y1="1.5" x2="14" y2="7" stroke="currentColor" stroke-width="0.8"/><line x1="14" y1="21" x2="14" y2="26.5" stroke="currentColor" stroke-width="0.8"/><line x1="1.5" y1="14" x2="7" y2="14" stroke="currentColor" stroke-width="0.8"/><line x1="21" y1="14" x2="26.5" y2="14" stroke="currentColor" stroke-width="0.8"/></svg>
+        Dart
+    </a>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How It Works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#notify" class="nav-cta">Get Early Access</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="badge">🎯 Copy 3, Paste 3</div>
+    <h1>Stop going back and forth.</h1>
+    <p class="hero-pain">You need an address, a price, and a name from one page. But your clipboard only holds one thing. So you copy, switch tabs, paste, switch back, copy, switch tabs, paste, switch back. <strong>Three items. Six switches. Every single time.</strong></p>
+    <p class="hero-fix">Dart lets you <span>copy everything first.</span> Switch once. Paste it all.</p>
+    <div class="hero-actions">
+        <a href="#notify" class="btn-primary">🎯 Join the Waitlist</a>
+        <a href="#demo" class="btn-secondary">▶ See It in Action</a>
+    </div>
+    <p class="hero-price"><strong>$4.99 one-time.</strong> No subscription. No tracking.</p>
+</section>
+
+<!-- DEMO: THE PROBLEM vs THE FIX -->
+<section class="demo-section" id="demo">
+    <div class="demo-outer">
+
+        <!-- The Problem -->
+        <div class="demo-label">Without Dart — The Tab-Switching Treadmill</div>
+        <div class="pain-demo">
+            <div class="pain-window">
+                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Listing Page</span></div>
+                <div class="pain-body">
+                    <div>📍 <span class="hl">742 Evergreen Ter</span></div>
+                    <div>💰 <span class="hl">$2,850,000</span></div>
+                    <div>📧 <span class="hl">seller@email.com</span></div>
+                </div>
+            </div>
+            <div class="pain-window">
+                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Your Document</span></div>
+                <div class="pain-body">
+                    <div>Property: ___________</div>
+                    <div>Price: ___________</div>
+                    <div>Contact: ___________</div>
+                </div>
+            </div>
+        </div>
+        <div class="switch-label">↔ Copy one, switch tabs, paste, switch back. Repeat 3x. Six switches total.</div>
+
+        <!-- The Fix -->
+        <div style="height:40px"></div>
+        <div class="demo-label">With Dart — Copy Everything, Switch Once</div>
+        <div class="fix-demo">
+            <div class="fix-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Same listing page. Zero tab switches.</span></div>
+            <div class="fix-body">
+                <div class="fix-steps" id="fix-steps">
+                    <div class="fix-step" id="step-1">
+                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">D</span></div>
+                        <div class="fix-desc">Save address to <strong>Slot D</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-2">
+                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">S</span></div>
+                        <div class="fix-desc">Save price to <strong>Slot S</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-3">
+                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">F</span></div>
+                        <div class="fix-desc">Save contact to <strong>Slot F</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-4" style="background:rgba(255,255,255,0.02);border-color:var(--border);">
+                        <div class="fix-keys" style="min-width:90px;justify-content:center;"><span style="font-size:18px;">⇥</span></div>
+                        <div class="fix-desc">Switch to your document — <strong>just once</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-5">
+                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">D</span></div>
+                        <div class="fix-desc">Paste address from <strong>Slot D</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-6">
+                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">S</span></div>
+                        <div class="fix-desc">Paste price from <strong>Slot S</strong></div>
+                    </div>
+                    <div class="fix-step" id="step-7">
+                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">F</span></div>
+                        <div class="fix-desc">Paste contact from <strong>Slot F</strong></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fix-result">
+                <span class="bad">6 tab switches</span> <span class="good">→ 1 tab switch. Done.</span>
+            </div>
+            <div class="slot-bar">
+                <div class="slot-chip">
+                    <div class="slot-key filled" id="sd">D</div>
+                    <span class="slot-text has">742 Evergreen...</span>
+                </div>
+                <div class="slot-chip">
+                    <div class="slot-key filled" id="ss">S</div>
+                    <span class="slot-text has">$2,850,000</span>
+                </div>
+                <div class="slot-chip">
+                    <div class="slot-key filled" id="sf">F</div>
+                    <span class="slot-text has">seller@email...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases" id="usecases">
+    <div class="uc-label">Who It's For</div>
+    <div class="uc-title">Anyone Who Copies More Than One Thing</div>
+    <div class="uc-subtitle">If you've ever lost something you copied, Dart is for you.</div>
+    <div class="uc-grid">
+        <div class="uc-card">
+            <div class="uc-emoji">🏠</div>
+            <h3>Real Estate Agents</h3>
+            <p>Pull addresses, prices, and MLS numbers from listings into contracts without the back-and-forth.</p>
+            <div class="uc-example">D: 26841 Windsor Dr → S: $2,998,000 → F: OC26008163</div>
+        </div>
+        <div class="uc-card">
+            <div class="uc-emoji">👨‍💻</div>
+            <h3>Developers</h3>
+            <p>Copy API keys, URLs, and code snippets from docs into your editor in one pass.</p>
+            <div class="uc-example">D: API_KEY → S: endpoint URL → F: auth token</div>
+        </div>
+        <div class="uc-card">
+            <div class="uc-emoji">📝</div>
+            <h3>Writers & Researchers</h3>
+            <p>Collect quotes, citations, and data points from sources — paste them all into your draft.</p>
+            <div class="uc-example">D: quote → S: author name → F: page number</div>
+        </div>
+        <div class="uc-card">
+            <div class="uc-emoji">💼</div>
+            <h3>Everyone Else</h3>
+            <p>Filling forms, onboarding accounts, comparing prices, moving data between apps — if you copy and paste, you need this.</p>
+            <div class="uc-example">D: your name → S: your email → F: your phone</div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+    <div class="feat-label">Features</div>
+    <div class="feat-title">Everything You Need. Nothing You Don't.</div>
+    <div class="feat-grid">
+        <div class="feat-card">
+            <div class="feat-icon">🎯</div>
+            <h3>3 Persistent Slots</h3>
+            <p>Your slots survive new copies, app switches, and restarts. They hold until you replace them.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🔍</div>
+            <h3>Searchable History</h3>
+            <p>Every copy is captured. Search your last 50 items by content or source app. Assign any item to a slot.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">⌨️</div>
+            <h3>Custom Hotkeys</h3>
+            <p>D, S, F by default. Switch to 1, 2, 3 or assign any key. Your keyboard, your rules.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🏷️</div>
+            <h3>Named Slots</h3>
+            <p>Label your slots — "Address," "Price," "Contact." Know what's where at a glance.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🎨</div>
+            <h3>Visual HUD</h3>
+            <p>A branded overlay flashes when you use a slot. Confirms the action, then disappears.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">🔒</div>
+            <h3>100% Private</h3>
+            <p>Everything stays on your Mac. No cloud. No analytics. No tracking. We never see what you copy.</p>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+    <div class="how-label">How It Works</div>
+    <div class="how-title">Three Steps. Zero Tab-Switching.</div>
+    <div class="how-steps">
+        <div class="how-step">
+            <div class="how-num">1</div>
+            <div class="how-body">
+                <h3>Copy to a Slot</h3>
+                <p>Press ⌘+C like normal. Then immediately tap your slot key.</p>
+                <div class="how-keys"><span class="hk">⌘</span><span class="hk">C</span><span style="color:var(--dim)">→</span><span class="hk orange">D</span></div>
+                <p class="how-note">No slot key? Just a normal copy. Nothing changes.</p>
+            </div>
+        </div>
+        <div class="how-step">
+            <div class="how-num">2</div>
+            <div class="how-body">
+                <h3>Paste from a Slot</h3>
+                <p>Press ⌘+V then immediately tap the slot key. Your saved content pastes — even if you've copied other things since.</p>
+                <div class="how-keys"><span class="hk">⌘</span><span class="hk">V</span><span style="color:var(--dim)">→</span><span class="hk green">D</span></div>
+                <p class="how-note">Works in every app. Everywhere. System-wide.</p>
+            </div>
+        </div>
+        <div class="how-step">
+            <div class="how-num">3</div>
+            <div class="how-body">
+                <h3>That's It</h3>
+                <p>Click the dartboard in your menu bar to see your slots, browse history, or search past copies. But honestly — you'll barely need to. The keyboard does everything.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MENU BAR PREVIEW -->
+<section class="menubar-section">
+    <div class="mb-label">Menu Bar App</div>
+    <div class="mb-title">Always There. Never in the Way.</div>
+    <div class="mb-sub">Click the dartboard to see your slots, search history, or assign items.</div>
+    <div class="mb-preview">
+        <div class="mb-header">
+            <div class="mb-logo">
+                <svg viewBox="0 0 28 28" fill="none" style="color:var(--accent);"><circle cx="14" cy="14" r="12.5" stroke="currentColor" stroke-width="1.8"/><circle cx="14" cy="14" r="7.5" stroke="currentColor" stroke-width="1.2"/><circle cx="14" cy="14" r="3" fill="#E85D3A"/></svg>
+                Dart
+            </div>
+            <div class="mb-meta">2/3 used</div>
+        </div>
+        <div class="mb-tabs"><div class="mb-tab active">Slots</div><div class="mb-tab">History</div></div>
+        <div class="mb-slots">
+            <div class="mb-slot">
+                <div class="mb-sk full">D</div>
+                <div class="mb-info"><div class="mb-name">Address</div><div class="mb-prev">742 Evergreen Terrace, Springfield</div></div>
+            </div>
+            <div class="mb-slot">
+                <div class="mb-sk full">S</div>
+                <div class="mb-info"><div class="mb-name">Price</div><div class="mb-prev">$2,850,000</div></div>
+            </div>
+            <div class="mb-slot">
+                <div class="mb-sk mt">F</div>
+                <div class="mb-info"><div class="mb-empty">Empty — ⌘C then F to save</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+    <div class="faq-label">FAQ</div>
+    <div class="faq-title">Questions</div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Does normal copy/paste still work? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Completely unchanged. Dart only activates when you press a slot key within half a second after ⌘+C or ⌘+V. If you don't, it's just normal copy and paste. Zero interference.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Why D, S, F instead of 1, 2, 3? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">They're right next to the C key — so after ⌘+C your fingers are already there. Faster muscle memory. But you can switch to 1-2-3 or assign any keys you want in Settings.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Why does it need Accessibility permission? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Dart captures keyboard shortcuts system-wide — that's how it knows you pressed ⌘+C followed by D. macOS requires Accessibility permission for this. It's used exclusively for hotkey detection. No screen reading, no keystroke logging, no other purpose.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Is my clipboard data sent anywhere? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">No. Everything stays on your Mac in local app storage. No cloud, no servers, no analytics. We literally cannot see what you copy.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Why only 3 slots? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Three is the sweet spot — you can remember what's in D, S, and F without thinking. More slots are unlockable as you use the app (up to 9). But 3 handles the vast majority of real-world use cases. Speed over storage.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Is it a subscription? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">No. $4.99 once. You own it. No recurring charges, no premium tier, no "upgrade to unlock" games. One payment, forever.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What about other clipboard managers? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Most clipboard managers record everything and make you search later. Dart takes a different approach: intentional storage with instant recall. You decide what goes where. No popup menus, no scrolling through history to find what you need. Just keyboard shortcuts and muscle memory.</div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="notify">
+    <h2>Your Clipboard Is About to Get Smarter</h2>
+    <p>Be the first to know when Dart hits the Mac App Store.</p>
+    <form class="email-form" action="#" onsubmit="handleSubmit(event)">
+        <input type="email" placeholder="you@email.com" required id="email-input">
+        <button type="submit" id="submit-btn">Notify Me</button>
+    </form>
+    <p class="form-note">One email. Launch day. That's it.</p>
+</section>
+
+<footer>
+    <div class="footer-slogan"><span>Dart</span> — Aim. Copy. Paste.</div>
+    <div class="footer-links">© 2026 Radley Raven · <a href="/privacy.html">Privacy</a> · Built in San Diego 🌴</div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('email-input').value;
+    const btn = document.getElementById('submit-btn');
+    const emails = JSON.parse(localStorage.getItem('dart_waitlist') || '[]');
+    emails.push({ email, date: new Date().toISOString() });
+    localStorage.setItem('dart_waitlist', JSON.stringify(emails));
+    btn.textContent = '✓ You\'re In';
+    btn.style.background = '#22C55E';
+    document.getElementById('email-input').value = '';
+    setTimeout(() => { btn.textContent = 'Notify Me'; btn.style.background = ''; }, 3000);
+}
+</script>
+
+<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--accent);color:white;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.2);">Variant: pure-white — Clean white — Apple.com energy</div>
+</body>
+</html>
