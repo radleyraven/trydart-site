@@ -215,6 +215,35 @@
         .form-note { font-size: 12px; color: var(--dim); margin-top: 10px; }
 
         /* ── FOOTER ── */
+        /* ANIMATED DEMO */
+        .anim-demo { max-width: 640px; margin: 0 auto; }
+        .anim-windows { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .anim-window { border-radius: 10px; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
+        .anim-body { padding: 16px; }
+        .anim-row { padding: 8px 0; display: flex; align-items: center; gap: 8px; border-radius: 6px; padding-left: 8px; transition: all 0.3s; }
+        .anim-row.highlight { background: rgba(232,93,58,0.1); }
+        .anim-row.highlight .anim-val { color: var(--accent); font-weight: 600; }
+        .anim-icon { font-size: 14px; }
+        .anim-val { font-family: var(--mono); font-size: 13px; color: var(--text); }
+        .anim-field { padding: 8px 0; font-size: 13px; color: var(--muted); font-family: var(--mono); }
+        .anim-fill { color: var(--accent); font-weight: 600; transition: all 0.3s; }
+        .anim-fill.pasted { color: #22C55E; }
+        .anim-slots { display: flex; justify-content: center; gap: 12px; margin: 16px 0; }
+        .anim-slot { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: all 0.3s; }
+        .anim-slot.filled { border-color: var(--accent); background: rgba(232,93,58,0.05); }
+        .anim-slot.pasting { border-color: #22C55E; background: rgba(34,197,94,0.05); }
+        .anim-slot-key { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.04); border-radius: 4px; }
+        .anim-slot-val { font-family: var(--mono); font-size: 11px; color: var(--dim); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: all 0.3s; }
+        .anim-slot.filled .anim-slot-val { color: var(--accent); }
+        .anim-slot.pasting .anim-slot-val { color: #22C55E; }
+        .anim-keystroke { text-align: center; font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); height: 36px; line-height: 36px; transition: all 0.2s; }
+        .anim-keystroke .ks-copy { color: var(--accent); }
+        .anim-keystroke .ks-paste { color: #22C55E; }
+        .anim-keystroke .ks-tab { color: var(--muted); }
+        .anim-status { text-align: center; font-size: 13px; color: var(--muted); margin-top: 8px; min-height: 20px; }
+        .anim-status.done { color: #22C55E; font-weight: 600; }
+        @media (max-width: 600px) { .anim-windows { grid-template-columns: 1fr; } }
+
         footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); }
         .footer-slogan { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
         .footer-slogan span { color: var(--accent); }
@@ -268,82 +297,38 @@
 <section class="demo-section" id="demo">
     <div class="demo-outer">
 
-        <!-- The Problem -->
-        <div class="demo-label">Without Dart — The Tab-Switching Treadmill</div>
-        <div class="pain-demo">
-            <div class="pain-window">
-                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Source Page</span></div>
-                <div class="pain-body">
-                    <div>👤 <span class="hl">Jane Cooper</span></div>
-                    <div>📧 <span class="hl">jane@company.com</span></div>
-                    <div>🔗 <span class="hl">https://company.com/proposal</span></div>
+        <!-- ANIMATED DEMO -->
+        <div class="demo-label">See It in Action</div>
+        <div class="anim-demo" id="anim-demo">
+            <!-- Source window -->
+            <div class="anim-windows">
+                <div class="anim-window anim-source" id="anim-source">
+                    <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Source Page</span></div>
+                    <div class="anim-body">
+                        <div class="anim-row" id="arow-1"><span class="anim-icon">👤</span><span class="anim-val" id="aval-1">Jane Cooper</span></div>
+                        <div class="anim-row" id="arow-2"><span class="anim-icon">📧</span><span class="anim-val" id="aval-2">jane@company.com</span></div>
+                        <div class="anim-row" id="arow-3"><span class="anim-icon">🔗</span><span class="anim-val" id="aval-3">company.com/proposal</span></div>
+                    </div>
                 </div>
-            </div>
-            <div class="pain-window">
-                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Your Email / Doc / Form</span></div>
-                <div class="pain-body">
-                    <div>Name: ___________</div>
-                    <div>Email: ___________</div>
-                    <div>Link: ___________</div>
-                </div>
-            </div>
-        </div>
-        <div class="switch-label">↔ Copy one, switch tabs, paste, switch back. Repeat 3x. Six switches total.</div>
-
-        <!-- The Fix -->
-        <div style="height:40px"></div>
-        <div class="demo-label">With Dart — Copy Everything, Switch Once</div>
-        <div class="fix-demo">
-            <div class="fix-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Same listing page. Zero tab switches.</span></div>
-            <div class="fix-body">
-                <div class="fix-steps" id="fix-steps">
-                    <div class="fix-step" id="step-1">
-                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">D</span></div>
-                        <div class="fix-desc">Save name to <strong>Slot D</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-2">
-                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">S</span></div>
-                        <div class="fix-desc">Save email to <strong>Slot S</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-3">
-                        <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">F</span></div>
-                        <div class="fix-desc">Save link to <strong>Slot F</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-4" style="background:rgba(0,0,0,0.02);border-color:var(--border);">
-                        <div class="fix-keys" style="min-width:90px;justify-content:center;"><span style="font-size:18px;">⇥</span></div>
-                        <div class="fix-desc">Switch to your document — <strong>just once</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-5">
-                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">D</span></div>
-                        <div class="fix-desc">Paste name from <strong>Slot D</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-6">
-                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">S</span></div>
-                        <div class="fix-desc">Paste email from <strong>Slot S</strong></div>
-                    </div>
-                    <div class="fix-step" id="step-7">
-                        <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">F</span></div>
-                        <div class="fix-desc">Paste link from <strong>Slot F</strong></div>
+                <div class="anim-window anim-dest" id="anim-dest">
+                    <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Your Email</span></div>
+                    <div class="anim-body">
+                        <div class="anim-field">Name: <span class="anim-fill" id="afill-1"></span></div>
+                        <div class="anim-field">Email: <span class="anim-fill" id="afill-2"></span></div>
+                        <div class="anim-field">Link: <span class="anim-fill" id="afill-3"></span></div>
                     </div>
                 </div>
             </div>
-            <div class="fix-result">
-                <span class="bad">6 tab switches</span> <span class="good">→ 1 tab switch. Done.</span>
+            <!-- Slot indicators -->
+            <div class="anim-slots">
+                <div class="anim-slot" id="aslot-d"><span class="anim-slot-key">D</span><span class="anim-slot-val" id="aslot-d-val">empty</span></div>
+                <div class="anim-slot" id="aslot-s"><span class="anim-slot-key">S</span><span class="anim-slot-val" id="aslot-s-val">empty</span></div>
+                <div class="anim-slot" id="aslot-f"><span class="anim-slot-key">F</span><span class="anim-slot-val" id="aslot-f-val">empty</span></div>
             </div>
-            <div class="slot-bar">
-                <div class="slot-chip">
-                    <div class="slot-key filled" id="sd">D</div>
-                    <span class="slot-text has">Jane Cooper</span>
-                </div>
-                <div class="slot-chip">
-                    <div class="slot-key filled" id="ss">S</div>
-                    <span class="slot-text has">jane@company...</span>
-                </div>
-                <div class="slot-chip">
-                    <div class="slot-key filled" id="sf">F</div>
-                    <span class="slot-text has">company.com/...</span>
-                </div>
-            </div>
+            <!-- Keystroke display -->
+            <div class="anim-keystroke" id="anim-keystroke"></div>
+            <!-- Status -->
+            <div class="anim-status" id="anim-status">Watch the magic ✨</div>
         </div>
     </div>
 </section>
@@ -469,11 +454,11 @@
         <div class="mb-slots">
             <div class="mb-slot">
                 <div class="mb-sk full">D</div>
-                <div class="mb-info"><div class="mb-name">Address</div><div class="mb-prev">742 Evergreen Terrace, Springfield</div></div>
+                <div class="mb-info"><div class="mb-name">Name</div><div class="mb-prev">Jane Cooper</div></div>
             </div>
             <div class="mb-slot">
                 <div class="mb-sk full">S</div>
-                <div class="mb-info"><div class="mb-name">Price</div><div class="mb-prev">$2,850,000</div></div>
+                <div class="mb-info"><div class="mb-name">Email</div><div class="mb-prev">jane@company.com</div></div>
             </div>
             <div class="mb-slot">
                 <div class="mb-sk mt">F</div>
@@ -534,6 +519,105 @@
 </footer>
 
 <script>
+// Animated demo
+(function() {
+    const items = [
+        { key: 'D', val: 'Jane Cooper', row: 1, field: 1 },
+        { key: 'S', val: 'jane@company.com', row: 2, field: 2 },
+        { key: 'F', val: 'company.com/proposal', row: 3, field: 3 }
+    ];
+    let running = false;
+    
+    function reset() {
+        items.forEach(item => {
+            const row = document.getElementById('arow-' + item.row);
+            const fill = document.getElementById('afill-' + item.field);
+            const slot = document.getElementById('aslot-' + item.key.toLowerCase());
+            const slotVal = document.getElementById('aslot-' + item.key.toLowerCase() + '-val');
+            if (row) row.classList.remove('highlight');
+            if (fill) { fill.textContent = ''; fill.classList.remove('pasted'); }
+            if (slot) { slot.classList.remove('filled', 'pasting'); }
+            if (slotVal) slotVal.textContent = 'empty';
+        });
+        const ks = document.getElementById('anim-keystroke');
+        const st = document.getElementById('anim-status');
+        if (ks) ks.innerHTML = '';
+        if (st) { st.textContent = 'Watch the magic ✨'; st.classList.remove('done'); }
+    }
+    
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+    
+    async function runDemo() {
+        if (running) return;
+        running = true;
+        reset();
+        await sleep(800);
+        
+        const ks = document.getElementById('anim-keystroke');
+        const st = document.getElementById('anim-status');
+        
+        // COPY PHASE
+        st.textContent = 'Copying from source...';
+        for (const item of items) {
+            const row = document.getElementById('arow-' + item.row);
+            const slot = document.getElementById('aslot-' + item.key.toLowerCase());
+            const slotVal = document.getElementById('aslot-' + item.key.toLowerCase() + '-val');
+            
+            row.classList.add('highlight');
+            ks.innerHTML = '<span class="ks-copy">⌘C → ' + item.key + '</span>';
+            await sleep(600);
+            slot.classList.add('filled');
+            slotVal.textContent = item.val;
+            await sleep(400);
+            row.classList.remove('highlight');
+            await sleep(300);
+        }
+        
+        // TAB SWITCH
+        ks.innerHTML = '<span class="ks-tab">⇥ Switch to email</span>';
+        st.textContent = 'One tab switch...';
+        await sleep(1000);
+        
+        // PASTE PHASE
+        st.textContent = 'Pasting into email...';
+        for (const item of items) {
+            const fill = document.getElementById('afill-' + item.field);
+            const slot = document.getElementById('aslot-' + item.key.toLowerCase());
+            
+            ks.innerHTML = '<span class="ks-paste">⌘V → ' + item.key + '</span>';
+            slot.classList.add('pasting');
+            await sleep(400);
+            fill.textContent = item.val;
+            fill.classList.add('pasted');
+            await sleep(400);
+            slot.classList.remove('pasting');
+            await sleep(300);
+        }
+        
+        // DONE
+        ks.innerHTML = '✅';
+        st.textContent = '3 copies. 1 switch. 3 pastes. Done.';
+        st.classList.add('done');
+        
+        await sleep(3000);
+        running = false;
+        reset();
+        await sleep(1000);
+        runDemo();
+    }
+    
+    // Start when section is visible
+    const observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            observer.disconnect();
+            runDemo();
+        }
+    }, { threshold: 0.3 });
+    
+    const el = document.getElementById('anim-demo');
+    if (el) observer.observe(el);
+})();
+
 function handleSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('email-input').value;
