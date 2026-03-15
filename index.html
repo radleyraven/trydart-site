@@ -255,7 +255,7 @@
 <section class="hero">
     <div class="badge">🎯 Copy 3, Paste 3</div>
     <h1>Stop going back and forth.</h1>
-    <p class="hero-pain">You need an address, a price, and a name from one page. But your clipboard only holds one thing. So you copy, switch tabs, paste, switch back, copy, switch tabs, paste, switch back. <strong>Three items. Six switches. Every single time.</strong></p>
+    <p class="hero-pain">You need three things from three places. An address, a price, a name. A username, a password, a code. A headline, a link, a quote. But your clipboard only holds one thing. So you copy, switch, paste, switch back. <strong>Three items. Six switches. Every single time.</strong></p>
     <p class="hero-fix">Dart lets you <span>copy everything first.</span> Switch once. Paste it all.</p>
     <div class="hero-actions">
         <a href="#notify" class="btn-primary">🎯 Join the Waitlist</a>
@@ -272,19 +272,19 @@
         <div class="demo-label">Without Dart — The Tab-Switching Treadmill</div>
         <div class="pain-demo">
             <div class="pain-window">
-                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Listing Page</span></div>
+                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Source Page</span></div>
                 <div class="pain-body">
-                    <div>📍 <span class="hl">742 Evergreen Ter</span></div>
-                    <div>💰 <span class="hl">$2,850,000</span></div>
-                    <div>📧 <span class="hl">seller@email.com</span></div>
+                    <div>👤 <span class="hl">Jane Cooper</span></div>
+                    <div>📧 <span class="hl">jane@company.com</span></div>
+                    <div>🔗 <span class="hl">https://company.com/proposal</span></div>
                 </div>
             </div>
             <div class="pain-window">
-                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Your Document</span></div>
+                <div class="pain-titlebar"><div class="pdot pdot-r"></div><div class="pdot pdot-y"></div><div class="pdot pdot-g"></div><span>Your Email / Doc / Form</span></div>
                 <div class="pain-body">
-                    <div>Property: ___________</div>
-                    <div>Price: ___________</div>
-                    <div>Contact: ___________</div>
+                    <div>Name: ___________</div>
+                    <div>Email: ___________</div>
+                    <div>Link: ___________</div>
                 </div>
             </div>
         </div>
@@ -299,15 +299,15 @@
                 <div class="fix-steps" id="fix-steps">
                     <div class="fix-step" id="step-1">
                         <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">D</span></div>
-                        <div class="fix-desc">Save address to <strong>Slot D</strong></div>
+                        <div class="fix-desc">Save name to <strong>Slot D</strong></div>
                     </div>
                     <div class="fix-step" id="step-2">
                         <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">S</span></div>
-                        <div class="fix-desc">Save price to <strong>Slot S</strong></div>
+                        <div class="fix-desc">Save email to <strong>Slot S</strong></div>
                     </div>
                     <div class="fix-step" id="step-3">
                         <div class="fix-keys"><span class="fk">⌘C</span><span class="fix-arrow">→</span><span class="fk accent">F</span></div>
-                        <div class="fix-desc">Save contact to <strong>Slot F</strong></div>
+                        <div class="fix-desc">Save link to <strong>Slot F</strong></div>
                     </div>
                     <div class="fix-step" id="step-4" style="background:rgba(0,0,0,0.02);border-color:var(--border);">
                         <div class="fix-keys" style="min-width:90px;justify-content:center;"><span style="font-size:18px;">⇥</span></div>
@@ -315,15 +315,15 @@
                     </div>
                     <div class="fix-step" id="step-5">
                         <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">D</span></div>
-                        <div class="fix-desc">Paste address from <strong>Slot D</strong></div>
+                        <div class="fix-desc">Paste name from <strong>Slot D</strong></div>
                     </div>
                     <div class="fix-step" id="step-6">
                         <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">S</span></div>
-                        <div class="fix-desc">Paste price from <strong>Slot S</strong></div>
+                        <div class="fix-desc">Paste email from <strong>Slot S</strong></div>
                     </div>
                     <div class="fix-step" id="step-7">
                         <div class="fix-keys"><span class="fk">⌘V</span><span class="fix-arrow">→</span><span class="fk green">F</span></div>
-                        <div class="fix-desc">Paste contact from <strong>Slot F</strong></div>
+                        <div class="fix-desc">Paste link from <strong>Slot F</strong></div>
                     </div>
                 </div>
             </div>
@@ -333,15 +333,15 @@
             <div class="slot-bar">
                 <div class="slot-chip">
                     <div class="slot-key filled" id="sd">D</div>
-                    <span class="slot-text has">742 Evergreen...</span>
+                    <span class="slot-text has">Jane Cooper</span>
                 </div>
                 <div class="slot-chip">
                     <div class="slot-key filled" id="ss">S</div>
-                    <span class="slot-text has">$2,850,000</span>
+                    <span class="slot-text has">jane@company...</span>
                 </div>
                 <div class="slot-chip">
                     <div class="slot-key filled" id="sf">F</div>
-                    <span class="slot-text has">seller@email...</span>
+                    <span class="slot-text has">company.com/...</span>
                 </div>
             </div>
         </div>
@@ -355,28 +355,28 @@
     <div class="uc-subtitle">If you've ever lost something you copied, Dart is for you.</div>
     <div class="uc-grid">
         <div class="uc-card">
-            <div class="uc-emoji">🏠</div>
-            <h3>Real Estate Agents</h3>
-            <p>Pull addresses, prices, and MLS numbers from listings into contracts without the back-and-forth.</p>
-            <div class="uc-example">D: 26841 Windsor Dr → S: $2,998,000 → F: OC26008163</div>
+            <div class="uc-emoji">📋</div>
+            <h3>Form Fillers</h3>
+            <p>Name, email, phone — every signup, every application, every checkout. Copy once, paste everywhere.</p>
+            <div class="uc-example">D: your name → S: your email → F: your phone</div>
         </div>
         <div class="uc-card">
             <div class="uc-emoji">👨‍💻</div>
             <h3>Developers</h3>
-            <p>Copy API keys, URLs, and code snippets from docs into your editor in one pass.</p>
+            <p>API keys, endpoints, and auth tokens from docs into your editor in one pass.</p>
             <div class="uc-example">D: API_KEY → S: endpoint URL → F: auth token</div>
         </div>
         <div class="uc-card">
             <div class="uc-emoji">📝</div>
-            <h3>Writers & Researchers</h3>
-            <p>Collect quotes, citations, and data points from sources — paste them all into your draft.</p>
-            <div class="uc-example">D: quote → S: author name → F: page number</div>
+            <h3>Content Creators</h3>
+            <p>Headline, link, and hashtags — every post, every platform, without the back-and-forth.</p>
+            <div class="uc-example">D: headline → S: link → F: #hashtags</div>
         </div>
         <div class="uc-card">
-            <div class="uc-emoji">💼</div>
-            <h3>Everyone Else</h3>
-            <p>Filling forms, onboarding accounts, comparing prices, moving data between apps — if you copy and paste, you need this.</p>
-            <div class="uc-example">D: your name → S: your email → F: your phone</div>
+            <div class="uc-emoji">🏠</div>
+            <h3>Real Estate & Sales</h3>
+            <p>Addresses, prices, and contact info from listings into contracts, emails, and CRMs.</p>
+            <div class="uc-example">D: 742 Evergreen → S: $2.85M → F: seller@email</div>
         </div>
     </div>
 </section>
