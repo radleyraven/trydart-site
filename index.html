@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dart™ — Copy 3, Paste 3 | Clipboard Slots for Mac</title>
-    <meta name="description" content="Stop going back and forth. Copy everything first, switch once, paste it all. Dart gives your Mac clipboard three slots. $0.99/month.">
+    <meta name="description" content="Stop going back and forth. Copy everything first, switch once, paste it all. Dart gives your Mac clipboard three slots. $4.99 one-time.">
     <meta property="og:title" content="Dart — Stop Going Back and Forth">
     <meta property="og:description" content="Three items. Six tab switches. Every single time. Dart fixes that.">
     <meta property="og:type" content="website">
@@ -276,7 +276,7 @@
         <a href="#features">Features</a>
         <a href="#how">How It Works</a>
         <a href="#faq">FAQ</a>
-        <a href="#notify" class="nav-cta">Get Early Access</a>
+        <a href="https://github.com/radleyraven/trydart-site/releases/download/v1.0.0/Dart-1.0.0.dmg" class="nav-cta">Download</a>
     </div>
 </nav>
 
@@ -287,10 +287,10 @@
     <p class="hero-pain">You need three things from three places. An address, a price, a name. A username, a password, a code. A headline, a link, a quote. But your clipboard only holds one thing. So you copy, switch, paste, switch back. <strong>Three items. Six switches. Every single time.</strong></p>
     <p class="hero-fix">Dart lets you <span>copy everything first.</span> Switch once. Paste it all.</p>
     <div class="hero-actions">
-        <a href="#notify" class="btn-primary">🎯 Join the Waitlist</a>
+        <a href="https://github.com/radleyraven/trydart-site/releases/download/v1.0.0/Dart-1.0.0.dmg" class="btn-primary">🎯 Download for Mac</a>
         <a href="#demo" class="btn-secondary">▶ See It in Action</a>
     </div>
-    <p class="hero-price"><strong>$0.99/month.</strong> Less than a coffee. No tracking.</p>
+    <p class="hero-price"><strong>$4.99 one-time purchase.</strong> Less than lunch. Yours forever. No tracking.</p>
 </section>
 
 <!-- DEMO: THE PROBLEM vs THE FIX -->
@@ -493,8 +493,8 @@
         <div class="faq-a">Three is the sweet spot — you can remember what's in D, S, and F without thinking. More slots are unlockable as you use the app (up to 9). But 3 handles the vast majority of real-world use cases. Speed over storage.</div>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Is it a subscription? <span class="faq-arrow">▼</span></div>
-        <div class="faq-a">Just $0.99/month — less than a coffee. No premium tier, no "upgrade to unlock" games. Cancel anytime.</div>
+        <div class="faq-q">How much does it cost? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Just $4.99 one-time purchase — less than lunch. No subscription, no premium tier, no "upgrade to unlock" games. Pay once, yours forever.</div>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
         <div class="faq-q">What about other clipboard managers? <span class="faq-arrow">▼</span></div>
@@ -504,13 +504,13 @@
 
 <!-- CTA -->
 <section class="cta" id="notify">
-    <h2>Your Clipboard Is About to Get Smarter</h2>
-    <p>Be the first to know when Dart hits the Mac App Store.</p>
-    <form class="email-form" action="#" onsubmit="handleSubmit(event)">
-        <input type="email" placeholder="you@email.com" required id="email-input">
-        <button type="submit" id="submit-btn">Notify Me</button>
-    </form>
-    <p class="form-note">One email. Launch day. That's it.</p>
+    <h2>Ready to stop switching?</h2>
+    <p>Three clipboard slots. One download. No subscription.</p>
+    <div style="margin-bottom: 16px;">
+        <a href="https://github.com/radleyraven/trydart-site/releases/download/v1.0.0/Dart-1.0.0.dmg" class="btn-primary" style="font-size: 18px; padding: 18px 36px;">🎯 Download Dart for Mac</a>
+    </div>
+    <p class="form-note">macOS 14+ · $4.99 one-time · No subscription</p>
+    <p class="form-note" style="margin-top: 12px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6;">First launch: macOS may show a security prompt. Go to System Settings → Privacy & Security → click Open Anyway. This is normal for apps downloaded outside the App Store.</p>
 </section>
 
 <footer>
@@ -618,18 +618,6 @@
     if (el) observer.observe(el);
 })();
 
-function handleSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('email-input').value;
-    const btn = document.getElementById('submit-btn');
-    const emails = JSON.parse(localStorage.getItem('dart_waitlist') || '[]');
-    emails.push({ email, date: new Date().toISOString() });
-    localStorage.setItem('dart_waitlist', JSON.stringify(emails));
-    btn.textContent = '✓ You\'re In';
-    btn.style.background = '#22C55E';
-    document.getElementById('email-input').value = '';
-    setTimeout(() => { btn.textContent = 'Notify Me'; btn.style.background = ''; }, 3000);
-}
 </script>
 
 </body>
